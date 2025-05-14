@@ -5,6 +5,7 @@ const port = process.env.PORT || 3000;
 const cors = require('cors')
 app.use(cors())
 app.use(express.json())
+require('dotenv').config()
 
 // xtbP6mdwNXzbi5Tv // coffee-store
 
@@ -12,6 +13,7 @@ app.use(express.json())
 
 
 
+const uri = `mongodb+srv://${process.env.DB_user}:${process.env.DB_pass}@cluster0.dpqzrtb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -23,16 +25,16 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        await client.connect;
-
+        await client.connect();
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     }
     finally {
-        run().catch(console.dir);
+
     }
 }
 
+run().catch(console.dir);
 
 
 
@@ -60,5 +62,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Coffee server running port on${port}`)
+    console.log(`Coffee server running port on: ${port}`)
 })
